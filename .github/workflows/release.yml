@@ -1,14 +1,14 @@
 name: Test
+
 on: [push, pull_request]
+
 jobs:
   build:
-    name: Deno test
-    runs-on: ${{ matrix.os }} # runs a test on Ubuntu, Windows and macOS
-
+    name: Test Deno
+    runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-      os: [macos-latest, ubuntu-latest, windows-latest]
-
+        os: [macos-latest, ubuntu-latest, windows-latest]
     steps:
       - name: Setup repo
         uses: actions/checkout@v2

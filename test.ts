@@ -21,3 +21,6 @@ Deno.test("fetch bad data", async () => {
     )
   );
 });
+Deno.test("fetch bad website", async () => {
+  await assertThrowsAsync(() => fetchJson("http://httpstat.us/404"));
+});

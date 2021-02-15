@@ -1,8 +1,7 @@
 /**
- * fetch the response.json()
  * @param input input url or request
  * @param init init args
- * @returns json 
+ * @returns `response.json()`
  */
 export const fetchJson = async (
   input: string | Request | URL,
@@ -23,10 +22,9 @@ export const fetchJson = async (
   }
 };
 /**
- * fetch the response.json().data;
  * @param input input url or request
  * @param init init args
- * @returns json 
+ * @returns `response.json().data`
  */
 export const fetchJsonData = async (
   input: string | Request | URL,

@@ -9,18 +9,18 @@ export const fetchJson = async (
 ) => {
   const res = await fetch(input, { ...init });
   if (!res.ok) {
+    await res.body?.cancel();
     throw new Error(
-      `Response not okay with code${res.status}:,${res.statusText}`,
+      `Response not okay with code : ${res.status} ${res.statusText}`,
     );
   }
-  try {
-    return await res.json();
-  } catch (error) {
-    throw new Error(
-      `Can not parse json : ${error}`,
-    );
+  const json = await res.json();
+  if (!json) {
+    throw new SyntaxError(`Can't parse json`);
   }
+  return json;
 };
+
 /**
  * @param input input url or request
  * @param init init args
@@ -41,15 +41,27 @@ export const fetchBuffer = async (
 ) => {
   const res = await fetch(input, { ...init });
   if (!res.ok) {
-    throw new Error(
-      `Response not okay with code${res.status}:,${res.statusText}`,
-    );
+    await res.body?.cancel();
+    throw `Response not okay with code${res.status}:,${res.statusText}`;
   }
-  try {
-    return await res.arrayBuffer();
-  } catch (error) {
-    throw new Error(
-      `Can not parse response body as ArrayBuffer${error}`,
-    );
+  const arrayBuffer = await res.arrayBuffer();
+  if (!arrayBuffer) {
+    throw new SyntaxError(`Cann't parse arrayBuffer`);
   }
+  return arrayBuffer;
+};
+/**
+ * @param input input url or request
+ * @param init init args
+ * @returns `Uint8Array(await res.arrayBuffer())`
+ */
+export const fetchArray = async (
+  input: string | Request | URL,
+  init?: RequestInit | undefined,
+) => {
+  const array = new Uint8Array(await fetchBuffer(input, { ...init }));
+  if (array) {
+    return array;
+  }
+  throw new TypeError(`Can't construct array`);
 };

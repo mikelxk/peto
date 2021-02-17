@@ -38,7 +38,7 @@ Deno.test("fetchJson(Not found)", async () => {
   await assertThrowsAsync(
     () => fetchJson("https://httpstat.us/404"),
     Error,
-    "Not Found",
+    "404",
   );
 });
 
@@ -47,6 +47,14 @@ Deno.test("fetchBuffer", async () => {
     await fetchBuffer(
       "https://deno.land",
     ),
+  );
+});
+
+Deno.test("fetchBuffer(Not found)", async () => {
+  await assertThrowsAsync(
+    () => fetchBuffer("https://httpstat.us/404"),
+    Error,
+    "404",
   );
 });
 

@@ -42,7 +42,9 @@ export const fetchBuffer = async (
   const res = await fetch(input, { ...init });
   if (!res.ok) {
     await res.body?.cancel();
-    throw `Response not okay with code${res.status}:,${res.statusText}`;
+    throw new Error(
+      `Response not okay with code${res.status}:,${res.statusText}`,
+    );
   }
   const arrayBuffer = await res.arrayBuffer();
   if (!arrayBuffer) {

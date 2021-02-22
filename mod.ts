@@ -1,3 +1,4 @@
+// Copyright 2021 Mike.
 /**
  * @param input input url or request
  * @param init init args
@@ -31,7 +32,9 @@ export async function fetchJsonData(
   init?: RequestInit | undefined,
 ) {
   return (await fetchJson(input, init)).data;
-} /**
+}
+
+/**
  * @param input input url or request
  * @param init init args
  * @returns `response.arrayBuffer()`
@@ -53,7 +56,9 @@ export async function fetchBuffer(
     throw new SyntaxError(`Cann't parse arrayBuffer`);
   }
   return arrayBuffer;
-}/**
+}
+
+/**
  * @param input input url or request
  * @param init init args
  * @returns `Uint8Array(await res.arrayBuffer())`

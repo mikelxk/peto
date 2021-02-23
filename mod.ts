@@ -2,19 +2,34 @@
 /**
  * @param input input url or request
  * @param init init args
- * @returns `response.json()`
+ * @returns Promise< Response >
  */
-export async function fetchJson(
+export async function Fetch(
   input: string | Request | URL,
   init?: RequestInit | undefined,
 ) {
   const res = await fetch(input, { ...init });
+  if (!res) {
+    throw new Error(`No response`);
+  }
   if (!res.ok) {
     await res.body?.cancel();
     throw new Error(
       `Response not okay with code : ${res.status} ${res.statusText}`,
     );
   }
+  return res;
+}
+/**
+ * @param input input url or request
+ * @param init init args
+ * @returns `response.json()`
+ */
+export async function fetchJson(
+  input: string | Request | URL,
+  init?: RequestInit | undefined,
+) {
+  const res = await Fetch(input, { ...init });
   const json = await res.json();
   if (!json) {
     throw new SyntaxError(`Can't parse json`);
@@ -44,13 +59,7 @@ export async function fetchBuffer(
   input: string | Request | URL,
   init?: RequestInit | undefined,
 ) {
-  const res = await fetch(input, { ...init });
-  if (!res.ok) {
-    await res.body?.cancel();
-    throw new Error(
-      `Response not okay with code${res.status}:,${res.statusText}`,
-    );
-  }
+  const res = await Fetch(input, { ...init });
   const arrayBuffer = await res.arrayBuffer();
   if (!arrayBuffer) {
     throw new SyntaxError(`Cann't parse arrayBuffer`);

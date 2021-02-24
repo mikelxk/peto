@@ -11,6 +11,10 @@ export async function Fetch(
 ) {
   if (init?.jsonBody) {
     init.body = JSON.stringify(init.jsonBody);
+    init.headers = {
+      ...init.headers,
+      "Content-Type": "application/json",
+    };
   }
   const res = await fetch(input, { ...init });
   if (!res) {

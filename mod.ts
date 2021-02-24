@@ -1,4 +1,5 @@
 // Copyright 2021 Mike.
+import { fetchArg } from "./type.ts";
 /**
  * @param input input url or request
  * @param init init args
@@ -6,8 +7,11 @@
  */
 export async function Fetch(
   input: string | Request | URL,
-  init?: RequestInit | undefined,
+  init?: fetchArg,
 ) {
+  if (init?.jsonBody) {
+    init.body = JSON.stringify(init.jsonBody);
+  }
   const res = await fetch(input, { ...init });
   if (!res) {
     throw new Error(`No response`);
@@ -25,9 +29,9 @@ export async function Fetch(
  * @param init init args
  * @returns `response.json()`
  */
-export async function fetchJson(
+export async function FetchJson(
   input: string | Request | URL,
-  init?: RequestInit | undefined,
+  init?: fetchArg,
 ) {
   const res = await Fetch(input, { ...init });
   const json = await res.json();
@@ -42,11 +46,11 @@ export async function fetchJson(
  * @returns `response.json().data`
  */
 
-export async function fetchJsonData(
+export async function FetchJsonData(
   input: string | Request | URL,
-  init?: RequestInit | undefined,
+  init?: fetchArg,
 ) {
-  return (await fetchJson(input, init)).data;
+  return (await FetchJson(input, init)).data;
 }
 
 /**
@@ -55,9 +59,9 @@ export async function fetchJsonData(
  * @returns `response.arrayBuffer()`
  */
 
-export async function fetchBuffer(
+export async function FetchBuffer(
   input: string | Request | URL,
-  init?: RequestInit | undefined,
+  init?: fetchArg,
 ) {
   const res = await Fetch(input, { ...init });
   const arrayBuffer = await res.arrayBuffer();
@@ -72,11 +76,11 @@ export async function fetchBuffer(
  * @param init init args
  * @returns `Uint8Array(await res.arrayBuffer())`
  */
-export async function fetchArray(
+export async function FetchArray(
   input: string | Request | URL,
-  init?: RequestInit | undefined,
+  init?: fetchArg,
 ) {
-  const array = new Uint8Array(await fetchBuffer(input, { ...init }));
+  const array = new Uint8Array(await FetchBuffer(input, { ...init }));
   if (array) {
     return array;
   }

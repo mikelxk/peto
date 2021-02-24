@@ -1,4 +1,4 @@
-import { fetchArray, fetchBuffer, fetchJson } from "./mod.ts";
+import { FetchArray, FetchBuffer, FetchJson } from "./mod.ts";
 import {
   assertArrayIncludes,
   assertEquals,
@@ -8,9 +8,9 @@ import {
 
 Deno.test("Sanity test", () => assertEquals(true, true));
 
-Deno.test("fetchJson", async () => {
+Deno.test("FetchJson", async () => {
   //fetch deno version data
-  const versionData = await fetchJson(
+  const versionData = await FetchJson(
     "https://raw.githubusercontent.com/denoland/deno_website2/main/versions.json",
   );
   assertExists(
@@ -23,10 +23,10 @@ Deno.test("fetchJson", async () => {
   );
 });
 
-Deno.test("fetchJson(Syntax error)", async () => {
+Deno.test("FetchJson(Syntax error)", async () => {
   await assertThrowsAsync(
     () =>
-      fetchJson(
+      FetchJson(
         "https://deno.land",
       ),
     SyntaxError,
@@ -34,33 +34,33 @@ Deno.test("fetchJson(Syntax error)", async () => {
   );
 });
 
-Deno.test("fetchJson(Not found)", async () => {
+Deno.test("FetchJson(Not found)", async () => {
   await assertThrowsAsync(
-    () => fetchJson("https://httpstat.us/404"),
+    () => FetchJson("https://httpstat.us/404"),
     Error,
     "404",
   );
 });
 
-Deno.test("fetchBuffer", async () => {
+Deno.test("FetchBuffer", async () => {
   assertExists(
-    await fetchBuffer(
+    await FetchBuffer(
       "https://deno.land",
     ),
   );
 });
 
-Deno.test("fetchBuffer(Not found)", async () => {
+Deno.test("FetchBuffer(Not found)", async () => {
   await assertThrowsAsync(
-    () => fetchBuffer("https://httpstat.us/404"),
+    () => FetchBuffer("https://httpstat.us/404"),
     Error,
     "404",
   );
 });
 
-Deno.test("fetchArray", async () => {
+Deno.test("FetchArray", async () => {
   assertEquals(
-    await fetchArray("https://deno.land"),
-    new Uint8Array(await fetchBuffer("https://deno.land")),
+    await FetchArray("https://deno.land"),
+    new Uint8Array(await FetchBuffer("https://deno.land")),
   );
 });

@@ -4,7 +4,7 @@ import {
   assertEquals,
   assertExists,
   assertThrowsAsync,
-} from "https://deno.land/std@0.88.0/testing/asserts.ts";
+} from "https://deno.land/std/testing/asserts.ts";
 
 Deno.test("Sanity test", () => assertEquals(true, true));
 

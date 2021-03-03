@@ -3,7 +3,7 @@ import { fetchArg } from "./type.ts";
 /**
  * @param input input url or request
  * @param init init args
- * @returns Promise< Response >
+ * @returns Promise to Response 
  */
 export async function Fetch(
   input: string | Request | URL,

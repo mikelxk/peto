@@ -9,14 +9,14 @@ export async function Fetch(
   input: string | Request | URL,
   init?: fetchArg,
 ) {
-  if (init?.jsonBody) {
-    init.body = JSON.stringify(init.jsonBody);
+  if (init?.json) {
+    init.body = JSON.stringify(init.json);
     init.headers = {
       ...init.headers,
       "Content-Type": "application/json",
     };
   }
-  const res = await fetch(input, { ...init });
+  const res = await fetch(input, init);
   if (!res) {
     throw new Error(`No response`);
   }

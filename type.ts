@@ -1,3 +1,3 @@
 export interface fetchArg extends RequestInit {
-  jsonBody?: object;
+  json?: any;
 }
